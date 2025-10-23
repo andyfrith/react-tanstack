@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as UsersRouteImport } from './routes/users'
+import { Route as PaymentsRouteImport } from './routes/payments'
 import { Route as ExampleRouteImport } from './routes/example'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
@@ -17,6 +18,11 @@ import { Route as IndexRouteImport } from './routes/index'
 const UsersRoute = UsersRouteImport.update({
   id: '/users',
   path: '/users',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PaymentsRoute = PaymentsRouteImport.update({
+  id: '/payments',
+  path: '/payments',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ExampleRoute = ExampleRouteImport.update({
@@ -39,12 +45,14 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/example': typeof ExampleRoute
+  '/payments': typeof PaymentsRoute
   '/users': typeof UsersRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/example': typeof ExampleRoute
+  '/payments': typeof PaymentsRoute
   '/users': typeof UsersRoute
 }
 export interface FileRoutesById {
@@ -52,20 +60,22 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/example': typeof ExampleRoute
+  '/payments': typeof PaymentsRoute
   '/users': typeof UsersRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/example' | '/users'
+  fullPaths: '/' | '/about' | '/example' | '/payments' | '/users'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/example' | '/users'
-  id: '__root__' | '/' | '/about' | '/example' | '/users'
+  to: '/' | '/about' | '/example' | '/payments' | '/users'
+  id: '__root__' | '/' | '/about' | '/example' | '/payments' | '/users'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   ExampleRoute: typeof ExampleRoute
+  PaymentsRoute: typeof PaymentsRoute
   UsersRoute: typeof UsersRoute
 }
 
@@ -76,6 +86,13 @@ declare module '@tanstack/react-router' {
       path: '/users'
       fullPath: '/users'
       preLoaderRoute: typeof UsersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/payments': {
+      id: '/payments'
+      path: '/payments'
+      fullPath: '/payments'
+      preLoaderRoute: typeof PaymentsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/example': {
@@ -106,6 +123,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   ExampleRoute: ExampleRoute,
+  PaymentsRoute: PaymentsRoute,
   UsersRoute: UsersRoute,
 }
 export const routeTree = rootRouteImport
